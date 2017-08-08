@@ -25,11 +25,6 @@ RUN curl -L -o temp.zip https://dl.google.com/android/repository/tools_r25.2.3-l
 ENV ANDROID_HOME /usr/local/android-sdk-linux
 ENV PATH $PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
 
-#download and install gradle.
-RUN curl -L -o temp.zip https://services.gradle.org/distributions/gradle-3.5-bin.zip \
-  && unzip -d /usr/local temp.zip && rm temp.zip
-ENV PATH $PATH:/usr/local/gradle-3.5/bin
-
 # update and accept licences
 ENV ANDROID_SDK_HOME /tmp
 RUN ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | /usr/local/android-sdk-linux/tools/android update sdk --no-ui -a \
@@ -39,9 +34,6 @@ RUN ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | /usr/local/android-sd
 RUN chmod -R 777 /tmp/.android
 
 ENV GRADLE_USER_HOME /src/gradle
-
-# install cordova and ionic.
-RUN npm i -g cordova ionic
 
 VOLUME /src
 WORKDIR /src
