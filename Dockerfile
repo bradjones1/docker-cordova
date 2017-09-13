@@ -31,9 +31,11 @@ RUN curl -L -o temp.zip https://services.gradle.org/distributions/gradle-3.3-bin
 ENV PATH $PATH:/usr/local/gradle-3.3/bin
 
 # update and accept licences
+RUN mkdir -p ${ANDROID_HOME}/licenses
+RUN echo 8933bad161af4178b1185d1a37fbf41ea5269c55 > ${ANDROID_HOME}/licenses/android-sdk-license
 ENV ANDROID_SDK_HOME /tmp
-RUN ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | /usr/local/android-sdk-linux/tools/android update sdk --no-ui -a \
-    --filter platform-tool,build-tools-25.0.2,android-25,extra-android-m2repository; \
+RUN /usr/local/android-sdk-linux/tools/android update sdk --no-ui -a \
+    --filter platform-tool,build-tools-26.0.1,android-25,extra-android-m2repository; \
     find /usr/local/android-sdk-linux -perm 0744 | xargs chmod 755
 
 RUN chmod -R 777 /tmp/.android
