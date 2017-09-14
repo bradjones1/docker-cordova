@@ -20,7 +20,7 @@ RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true 
 ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
 
 # download and extract android sdk
-RUN curl -L -o temp.zip https://dl.google.com/android/repository/tools_r25.2.3-linux.zip \
+RUN curl -L -o temp.zip https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip \
   && unzip -d /usr/local/android-sdk-linux temp.zip && rm temp.zip
 ENV ANDROID_HOME /usr/local/android-sdk-linux
 ENV PATH $PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
@@ -32,13 +32,14 @@ ENV PATH $PATH:/usr/local/gradle-3.3/bin
 
 # update and accept licences
 RUN mkdir -p ${ANDROID_HOME}/licenses
-RUN echo 8933bad161af4178b1185d1a37fbf41ea5269c55 > ${ANDROID_HOME}/licenses/android-sdk-license
-ENV ANDROID_SDK_HOME /tmp
-RUN /usr/local/android-sdk-linux/tools/android update sdk --no-ui -a \
-    --filter platform-tool,build-tools-25.0.1,android-25,extra-android-m2repository; \
-    find /usr/local/android-sdk-linux -perm 0744 | xargs chmod 755
+RUN echo -n 8933bad161af4178b1185d1a37fbf41ea5269c55 > ${ANDROID_HOME}/licenses/android-sdk-license
+RUN /usr/local/android-sdk-linux/tools/bin/sdkmanager \
+  "platform-tools" "build-tools;26.0.1" \
+  "platforms;android-25" "platforms;android-26" \
+  "extras;android;m2repository"
 
-RUN chmod -R 777 /tmp/.android
+ENV ANDROID_SDK_HOME /tmp
+RUN mkdir -p /tmp/.android && touch /tmp/.android/repositories.cfg && chmod -R 777 /tmp/.android
 
 ENV GRADLE_USER_HOME /src/gradle
 
