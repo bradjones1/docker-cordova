@@ -26,7 +26,7 @@ ENV ANDROID_HOME /usr/local/android-sdk-linux
 ENV PATH $PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
 
 #download and install gradle.
-RUN curl -L -o temp.zip https://services.gradle.org/distributions/gradle-3.3-bin.zip \
+RUN curl -s -L -o temp.zip https://services.gradle.org/distributions/gradle-3.3-bin.zip \
   && unzip -d /usr/local temp.zip && rm temp.zip
 ENV PATH $PATH:/usr/local/gradle-3.3/bin
 
@@ -34,7 +34,7 @@ ENV PATH $PATH:/usr/local/gradle-3.3/bin
 RUN mkdir -p ${ANDROID_HOME}/licenses
 RUN echo -n 8933bad161af4178b1185d1a37fbf41ea5269c55 > ${ANDROID_HOME}/licenses/android-sdk-license
 RUN /usr/local/android-sdk-linux/tools/bin/sdkmanager \
-  "platform-tools" "build-tools;26.0.1" \
+  "platform-tools" "build-tools;26.0.1" "build-tools;25.0.1" \
   "platforms;android-25" "platforms;android-26" \
   "extras;android;m2repository"
 
