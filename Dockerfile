@@ -30,16 +30,16 @@ RUN curl -s -L -o temp.zip https://services.gradle.org/distributions/gradle-3.3-
   && unzip -d /usr/local temp.zip && rm temp.zip
 ENV PATH $PATH:/usr/local/gradle-3.3/bin
 
+ENV ANDROID_SDK_HOME /tmp
+RUN mkdir -p /tmp/.android && touch /tmp/.android/repositories.cfg && chmod -R 777 /tmp/.android
 # update and accept licences
 RUN mkdir -p ${ANDROID_HOME}/licenses
 RUN echo -n 8933bad161af4178b1185d1a37fbf41ea5269c55 > ${ANDROID_HOME}/licenses/android-sdk-license
+# Install some basic dependencies and let Gradle install what it wants.
 RUN /usr/local/android-sdk-linux/tools/bin/sdkmanager \
-  "platform-tools" "build-tools;26.0.1" "build-tools;25.0.3" \
-  "platforms;android-25" "platforms;android-26" \
-  "extras;android;m2repository"
-
-ENV ANDROID_SDK_HOME /tmp
-RUN mkdir -p /tmp/.android && touch /tmp/.android/repositories.cfg && chmod -R 777 /tmp/.android
+  "platform-tools" \
+  "extras;android;m2repository" \
+  && chmod -R 777 $ANDROID_HOME
 
 ENV GRADLE_USER_HOME /src/gradle
 
