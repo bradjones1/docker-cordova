@@ -26,7 +26,7 @@ ENV ANDROID_HOME /usr/local/android-sdk-linux
 ENV PATH $PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
 
 #download and install gradle.
-RUN curl -s -L -o temp.zip https://services.gradle.org/distributions/gradle-3.3-bin.zip \
+RUN curl -s -L -o temp.zip https://services.gradle.org/distributions/gradle-4.2.1-bin.zip \
   && unzip -d /usr/local temp.zip && rm temp.zip
 ENV PATH $PATH:/usr/local/gradle-3.3/bin
 
