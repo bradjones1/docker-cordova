@@ -1,5 +1,12 @@
 FROM openjdk:8-jdk
 
+# Install yarn
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
+  && apt-get update && apt-get install -yqq apt-transport-https \
+  && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
+  && apt-get update && apt-get install -yqq yarn \
+  && rm -rf /var/lib/apt/lists/*
+
 # download and extract android sdk
 RUN curl -L -o temp.zip https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip \
   && unzip -d /usr/local/android-sdk-linux temp.zip && rm temp.zip
