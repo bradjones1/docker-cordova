@@ -1,23 +1,4 @@
-FROM node:7
-
-# Adds 32-bit libraries as well.
-RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections \
-  && echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main" | \
-  tee /etc/apt/sources.list.d/webupd8team-java.list \
-  && echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main" | \
-  tee -a /etc/apt/sources.list.d/webupd8team-java.list \
-  && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886 \
-  && apt-get update && apt-get install -yqq --no-install-recommends \
-  oracle-java8-installer \
-  lib32stdc++6 lib32z1 \
-  libswt-gtk-3-java \
-  unzip \
-  && apt-get clean autoclean && apt-get autoremove -y \
-  && rm -rf /var/lib/apt/lists/* \
-  && rm -rf /var/cache/oracle-jdk8-installer
-
-# Define commonly used JAVA_HOME variable
-ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
+FROM openjdk:7
 
 # download and extract android sdk
 RUN curl -L -o temp.zip https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip \
@@ -25,7 +6,7 @@ RUN curl -L -o temp.zip https://dl.google.com/android/repository/sdk-tools-linux
 ENV ANDROID_HOME /usr/local/android-sdk-linux
 ENV PATH $PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
 
-#download and install gradle.
+# download and install gradle.
 ENV GRADLE_VERSION 4.2.1
 RUN curl -s -L -o temp.zip https://services.gradle.org/distributions/gradle-$GRADLE_VERSION-bin.zip \
   && unzip -d /usr/local temp.zip && rm temp.zip
