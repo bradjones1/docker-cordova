@@ -1,4 +1,4 @@
-FROM openjdk:8
+FROM openjdk:8-jdk
 
 # download and extract android sdk
 RUN curl -L -o temp.zip https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip \
