@@ -5,7 +5,7 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
   && curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - \
   && apt-get update && apt-get install -yqq apt-transport-https \
   && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
-  && echo "deb https://deb.nodesource.com/node_6.x stable main" | tee /etc/apt/sources.list.d/nodesource.list \
+  && echo "deb https://deb.nodesource.com/node_6.x stretch main" | tee /etc/apt/sources.list.d/nodesource.list \
   && apt-get update && apt-get install -yqq yarn \
   && rm -rf /var/lib/apt/lists/*
 
